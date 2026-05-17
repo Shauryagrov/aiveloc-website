@@ -1,237 +1,1511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Aiveloc - Professional App Store developers creating amazing iOS apps using AI with human expertise. DivinePrayers, Hanuman Chalisa Kids, Pleasanton Student Pro, and more.">
-    <title>Aiveloc - AI-Powered App Development with Human Expertise</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Aiveloc — AI-powered iOS app development studio. We build refined, human-curated apps with cutting-edge AI." />
+    <meta name="author" content="Aiveloc LLC" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aiveloc.com/" />
+    <meta property="og:title" content="Aiveloc — AI-Powered Apps. Human Expertise." />
+    <meta property="og:description" content="An AI-powered app development studio. Crafted iOS apps, human in the loop." />
+    <meta property="og:site_name" content="Aiveloc" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aiveloc — AI-Powered Apps. Human Expertise." />
+    <meta name="twitter:description" content="AI-powered iOS app development studio." />
+    <meta property="og:image" content="https://aiveloc.com/logo.png" />
+    <meta name="twitter:image" content="https://aiveloc.com/logo.png" />
+
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="apple-touch-icon" href="logo.png" />
+
+    <title>Aiveloc — AI-Powered Apps. Human Expertise.</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+
+    <style>
+        /* ============ RESET & ROOT ============ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        :root {
+            --bg: #000000;
+            --fg: #ffffff;
+            --fg-90: rgba(255, 255, 255, 0.9);
+            --fg-70: rgba(255, 255, 255, 0.7);
+            --fg-50: rgba(255, 255, 255, 0.5);
+            --fg-35: rgba(255, 255, 255, 0.35);
+            --fg-20: rgba(255, 255, 255, 0.2);
+            --fg-12: rgba(255, 255, 255, 0.12);
+            --fg-08: rgba(255, 255, 255, 0.08);
+            --fg-04: rgba(255, 255, 255, 0.04);
+            --accent: #b794ff;
+            --accent-strong: #c9b1ff;
+            --accent-glow: rgba(183, 148, 255, 0.28);
+            --accent-soft: rgba(183, 148, 255, 0.12);
+            --accent-faint: rgba(183, 148, 255, 0.06);
+            --glow: 0 0 40px rgba(183, 148, 255, 0.18), 0 0 80px rgba(255, 255, 255, 0.06);
+            --glow-strong: 0 0 100px rgba(183, 148, 255, 0.28);
+            --serif: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            --container: 1200px;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--serif);
+            font-weight: 400;
+            line-height: 1.55;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+        img, svg { display: block; max-width: 100%; }
+
+        /* ============ GRAIN OVERLAY ============ */
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.06;
+            mix-blend-mode: overlay;
+        }
+
+        /* ============ CONTAINER ============ */
+        .container {
+            width: 100%;
+            max-width: var(--container);
+            margin-inline: auto;
+            padding-inline: 24px;
+        }
+        @media (min-width: 768px) { .container { padding-inline: 48px; } }
+
+        /* ============ NAVBAR ============ */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 18px 0;
+            transition: backdrop-filter 0.4s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease), padding 0.4s var(--ease);
+            border-bottom: 1px solid transparent;
+        }
+        .nav.scrolled {
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            background: rgba(0, 0, 0, 0.55);
+            border-bottom-color: var(--fg-08);
+            padding: 12px 0;
+        }
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-weight: 600;
+            font-size: 17px;
+            letter-spacing: -0.02em;
+        }
+        .brand-mark {
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+            transition: filter 0.3s var(--ease), transform 0.3s var(--ease);
+        }
+        .brand:hover .brand-mark {
+            transform: scale(1.06);
+            filter: drop-shadow(0 0 16px var(--accent-glow));
+        }
+        .foot-brand .brand-mark { width: 34px; height: 34px; }
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            list-style: none;
+        }
+        .nav-links a {
+            position: relative;
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--fg-70);
+            padding: 10px 14px;
+            border-radius: 8px;
+            transition: color 0.25s var(--ease);
+        }
+        .nav-links a:hover { color: var(--fg); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 14px;
+            right: 14px;
+            bottom: 6px;
+            height: 1px;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.35s var(--ease);
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after { transform: scaleX(1); }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 13px;
+            padding: 9px 16px;
+            border: 1px solid var(--fg-20);
+            border-radius: 999px;
+            color: var(--fg);
+            transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+        }
+        .nav-cta:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+        .menu-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--fg-12);
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-toggle span {
+            position: relative;
+            width: 16px;
+            height: 1.5px;
+            background: var(--fg);
+            transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+        }
+        .menu-toggle span::before,
+        .menu-toggle span::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 16px;
+            height: 1.5px;
+            background: var(--fg);
+            transition: transform 0.3s var(--ease);
+        }
+        .menu-toggle span::before { top: -5px; }
+        .menu-toggle span::after { top: 5px; }
+        .menu-toggle.open span { background: transparent; }
+        .menu-toggle.open span::before { transform: translateY(5px) rotate(45deg); }
+        .menu-toggle.open span::after  { transform: translateY(-5px) rotate(-45deg); }
+
+        /* Mobile nav */
+        @media (max-width: 880px) {
+            .nav-links, .nav-cta { display: none; }
+            .menu-toggle { display: inline-flex; }
+            .mobile-panel {
+                position: fixed;
+                inset: 64px 0 0 0;
+                background: rgba(0, 0, 0, 0.96);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                z-index: 99;
+                padding: 32px 24px;
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: transform 0.45s var(--ease), opacity 0.3s var(--ease);
+                border-bottom: 1px solid var(--fg-08);
+            }
+            .mobile-panel.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+            .mobile-panel ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+            .mobile-panel a {
+                display: block;
+                font-family: var(--mono);
+                font-size: 18px;
+                padding: 16px 0;
+                border-bottom: 1px solid var(--fg-08);
+                color: var(--fg);
+            }
+            .mobile-panel a:last-child { border-bottom: none; }
+            .mobile-panel .nav-cta {
+                display: inline-flex;
+                margin-top: 24px;
+            }
+        }
+        @media (min-width: 881px) { .mobile-panel { display: none; } }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh;
+            padding: 140px 0 80px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            width: 80vw;
+            height: 80vw;
+            max-width: 1000px;
+            max-height: 1000px;
+            transform: translateX(-50%);
+            background:
+                radial-gradient(circle at 30% 30%, rgba(183,148,255,0.18) 0%, transparent 55%),
+                radial-gradient(circle at 70% 60%, rgba(255,255,255,0.05) 0%, transparent 60%);
+            pointer-events: none;
+            filter: blur(20px);
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 64px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        @media (max-width: 980px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--fg-70);
+            padding: 8px 14px;
+            border: 1px solid var(--fg-12);
+            border-radius: 999px;
+            background: var(--fg-04);
+        }
+        .eyebrow {
+            background: var(--accent-faint);
+            border-color: var(--accent-soft);
+        }
+        .eyebrow .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 14px var(--accent-strong);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(40px, 6.8vw, 84px);
+            font-weight: 800;
+            line-height: 1.02;
+            letter-spacing: -0.04em;
+            margin-top: 24px;
+        }
+        .hero h1 .muted { color: var(--fg-50); font-weight: 500; }
+
+        @keyframes blink { 50% { background: transparent; } }
+
+        .hero-sub {
+            color: var(--fg-70);
+            font-size: clamp(15px, 1.4vw, 17px);
+            line-height: 1.6;
+            max-width: 520px;
+            margin-top: 28px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 36px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 14px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--fg-20);
+            overflow: hidden;
+            isolation: isolate;
+            transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+        }
+        .btn .arrow { transition: transform 0.3s var(--ease); display: inline-block; }
+        .btn:hover .arrow { transform: translateX(4px); }
+        .btn.primary {
+            background: var(--fg);
+            color: var(--bg);
+            border-color: var(--fg);
+        }
+        /* Sweep invert hover */
+        .btn.primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--bg);
+            transform: translateX(-101%);
+            transition: transform 0.45s var(--ease);
+            z-index: -1;
+        }
+        .btn.primary:hover { color: var(--fg); border-color: var(--fg); }
+        .btn.primary:hover::before { transform: translateX(0); }
+        .btn.ghost:hover { background: var(--fg-08); border-color: var(--fg-35); color: var(--fg); }
+
+        /* Code window */
+        .code-window {
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--fg-12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--glow);
+            overflow: hidden;
+            position: relative;
+        }
+        .code-chrome {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--fg-08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .code-chrome .dots { display: flex; gap: 6px; }
+        .code-chrome .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--fg-20);
+        }
+        .code-chrome .title {
+            margin-left: 10px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg-50);
+        }
+        .code-body {
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.7;
+            padding: 16px 0 20px;
+            min-height: 280px;
+            overflow: hidden;
+        }
+        .code-line {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            padding: 0 14px 0 0;
+        }
+        .code-line .ln {
+            color: var(--fg-20);
+            text-align: right;
+            padding-right: 14px;
+            user-select: none;
+            border-right: 1px solid var(--fg-08);
+            margin-right: 12px;
+        }
+        .code-line .code { color: var(--fg-90); white-space: pre; }
+        .code-line .kw { color: var(--accent-strong); font-weight: 600; }
+        .code-line .str { color: var(--fg-70); }
+        .code-line .com { color: var(--fg-35); font-style: italic; }
+        .code-line .fn { color: var(--fg); }
+        .code-caret {
+            display: inline-block;
+            width: 0.55ch;
+            height: 1em;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+            vertical-align: -2px;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--fg-50);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+        }
+        .scroll-hint .line {
+            width: 1px; height: 32px;
+            background: linear-gradient(to bottom, var(--fg-50), transparent);
+            animation: drop 2s var(--ease) infinite;
+        }
+        @keyframes drop {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* ============ SECTIONS ============ */
+        section { position: relative; padding: 120px 0; }
+        @media (max-width: 768px) { section { padding: 80px 0; } }
+
+        .section-head { max-width: 760px; margin-bottom: 64px; }
+        .section-label {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent-strong);
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        .section-title {
+            font-size: clamp(32px, 4.5vw, 56px);
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.05;
+        }
+        .section-sub {
+            color: var(--fg-70);
+            font-size: clamp(15px, 1.3vw, 17px);
+            margin-top: 16px;
+            max-width: 600px;
+        }
+
+        /* Approach grid */
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 880px) {
+            .approach-grid { grid-template-columns: 1fr; }
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--fg-08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 32px;
+            transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), background 0.4s var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.4s var(--ease);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-soft);
+            box-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .card:hover::before { opacity: 1; }
+
+        .card-num {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg-50);
+            letter-spacing: 0.1em;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-num::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--fg-08);
+        }
+        .card-icon {
+            width: 44px; height: 44px;
+            border: 1px solid var(--fg-20);
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--fg);
+        }
+        .card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .card p {
+            color: var(--fg-70);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        /* App cards */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 980px) { .apps-grid { grid-template-columns: 1fr; } }
+
+        .app-card {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            min-height: 380px;
+        }
+        .app-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        .app-badge {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--fg-50);
+            padding: 5px 10px;
+            border: 1px solid var(--fg-12);
+            border-radius: 999px;
+        }
+        .app-glyph {
+            width: 52px; height: 52px;
+            border-radius: 12px;
+            background: var(--fg-04);
+            border: 1px solid var(--fg-12);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+        }
+        .app-cat {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--fg-50);
+            margin-bottom: 14px;
+        }
+        .app-desc {
+            color: var(--fg-70);
+            font-size: 14.5px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex: 1;
+        }
+        .app-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 18px;
+            border-top: 1px solid var(--fg-08);
+        }
+        .app-link {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--fg);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s var(--ease);
+        }
+        .app-link:hover { gap: 14px; }
+        .app-link .arrow { display: inline-block; transition: transform 0.3s var(--ease); }
+        .app-card:hover .app-link .arrow { transform: translateX(3px); }
+
+        /* About + stats */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 64px;
+            align-items: center;
+        }
+        @media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+        .about-text {
+            color: var(--fg-70);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-top: 24px;
+        }
+        .about-text + .about-text { margin-top: 14px; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1px;
+            background: var(--fg-08);
+            border: 1px solid var(--fg-08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .stat {
+            background: var(--bg);
+            padding: 32px;
+        }
+        .stat-num {
+            font-family: var(--serif);
+            font-size: clamp(48px, 6vw, 72px);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+        .stat-num .unit {
+            font-size: 0.4em;
+            font-weight: 500;
+            color: var(--fg-50);
+        }
+        .stat-label {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--fg-50);
+            margin-top: 12px;
+        }
+
+        /* Featured project — Communally */
+        #latest { padding: 80px 0; }
+        @media (max-width: 768px) { #latest { padding: 60px 0; } }
+        .latest-card {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 56px;
+            align-items: center;
+            padding: 56px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--fg-08);
+            border-radius: 24px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            position: relative;
+            overflow: hidden;
+        }
+        .latest-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 60%; height: 200%;
+            background: radial-gradient(circle, rgba(76, 217, 100, 0.18) 0%, transparent 60%);
+            pointer-events: none;
+            filter: blur(40px);
+        }
+        @media (max-width: 880px) {
+            .latest-card {
+                grid-template-columns: 1fr;
+                gap: 36px;
+                padding: 36px;
+                text-align: left;
+            }
+        }
+        .latest-media {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        .latest-logo-frame {
+            width: 220px;
+            height: 220px;
+            border-radius: 48px;
+            overflow: hidden;
+            position: relative;
+            box-shadow:
+                0 0 50px rgba(76, 217, 100, 0.35),
+                0 30px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--fg-12);
+            transform: rotate(-3deg);
+            transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+        }
+        .latest-card:hover .latest-logo-frame {
+            transform: rotate(0deg) scale(1.03);
+            box-shadow:
+                0 0 70px rgba(76, 217, 100, 0.5),
+                0 30px 70px rgba(0, 0, 0, 0.7);
+        }
+        .latest-logo {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+        @media (max-width: 880px) {
+            .latest-logo-frame { width: 160px; height: 160px; border-radius: 36px; }
+        }
+        .latest-copy { position: relative; z-index: 2; }
+        .latest-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--fg-70);
+            padding: 7px 14px;
+            border: 1px solid rgba(76, 217, 100, 0.3);
+            border-radius: 999px;
+            background: rgba(76, 217, 100, 0.08);
+            margin-bottom: 22px;
+        }
+        .latest-eyebrow .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4cd964;
+            box-shadow: 0 0 12px #4cd964;
+            animation: pulse 2s infinite;
+        }
+        .latest-title {
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+        .latest-tag {
+            font-size: clamp(16px, 1.5vw, 19px);
+            color: var(--fg-90);
+            font-weight: 500;
+            line-height: 1.45;
+            margin-bottom: 16px;
+            max-width: 560px;
+        }
+        .latest-desc {
+            color: var(--fg-70);
+            font-size: 15px;
+            line-height: 1.65;
+            margin-bottom: 28px;
+            max-width: 560px;
+        }
+        .latest-meta {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--fg-08);
+            border: 1px solid var(--fg-08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        @media (max-width: 560px) { .latest-meta { grid-template-columns: 1fr; } }
+        .latest-meta li {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .meta-k {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--fg-50);
+        }
+        .meta-v {
+            font-size: 13px;
+            color: var(--fg);
+            font-weight: 500;
+        }
+
+        /* Founder block */
+        .founder-block { margin-top: 120px; }
+        @media (max-width: 768px) { .founder-block { margin-top: 80px; } }
+        .founder-head { margin-bottom: 40px; }
+        .founder-title { font-size: clamp(28px, 3.5vw, 44px); }
+        .founder-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 880px) { .founder-grid { grid-template-columns: 1fr; } }
+        .founder-grid .card { padding: 28px; }
+        .founder-grid .card-num {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .founder-grid .card-num::after { display: none; }
+        .card-cta {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid var(--fg-08);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 160px 0;
+        }
+        .cta-section .section-title { max-width: 780px; margin: 0 auto 24px; }
+        .cta-section p { color: var(--fg-70); font-size: 17px; max-width: 540px; margin: 0 auto 40px; }
+        .cta-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--fg-08);
+            padding: 56px 0 32px;
+        }
+        .foot-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        @media (max-width: 880px) {
+            .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+        }
+        .foot-col h4 {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--fg-50);
+            margin-bottom: 18px;
+        }
+        .foot-col ul { list-style: none; }
+        .foot-col li { margin-bottom: 10px; }
+        .foot-col a {
+            color: var(--fg-70);
+            font-size: 14px;
+            transition: color 0.25s var(--ease);
+        }
+        .foot-col a:hover { color: var(--fg); }
+        .foot-brand p {
+            color: var(--fg-50);
+            font-size: 14px;
+            margin-top: 12px;
+            max-width: 260px;
+            line-height: 1.55;
+        }
+        .foot-bottom {
+            margin-top: 56px;
+            padding-top: 24px;
+            border-top: 1px solid var(--fg-08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg-50);
+        }
+
+        /* ============ REVEAL ANIM ============ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+            will-change: opacity, transform;
+        }
+        .reveal.in { opacity: 1; transform: none; }
+        .reveal.delay-1 { transition-delay: 0.08s; }
+        .reveal.delay-2 { transition-delay: 0.16s; }
+        .reveal.delay-3 { transition-delay: 0.24s; }
+
+        ::selection { background: var(--fg); color: var(--bg); }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--fg-12); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--fg-20); }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <span class="brand-icon">🚀</span>
-                <span class="brand-text">Aiveloc</span>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#apps">Our Apps</a></li>
-                <li><a href="#approach">Our Approach</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="support.html">Support</a></li>
+    <!-- Grain overlay -->
+    <svg class="grain" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <filter id="noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+            <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise)" />
+    </svg>
+
+    <!-- Nav -->
+    <nav class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#top" class="brand" aria-label="Aiveloc home">
+                <img class="brand-mark" src="logo.png" alt="" aria-hidden="true" />
+                Aiveloc
+            </a>
+            <ul class="nav-links">
+                <li><a href="#approach" data-nav>Approach</a></li>
+                <li><a href="#apps" data-nav>Apps</a></li>
+                <li><a href="#about" data-nav>About</a></li>
             </ul>
-            <button class="mobile-menu-toggle" aria-label="Toggle menu">☰</button>
+            <a href="mailto:aivelocadmin@gmail.com" class="nav-cta">
+                Get in touch
+                <span class="arrow">→</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+            </button>
+        </div>
+        <div class="mobile-panel" id="mobilePanel">
+            <ul>
+                <li><a href="#approach">Approach</a></li>
+                <li><a href="#apps">Apps</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+            <a href="mailto:aivelocadmin@gmail.com" class="nav-cta">aivelocadmin@gmail.com →</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Hero -->
+    <section class="hero" id="top">
         <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">AI-Powered Apps.<br>Human Expertise.</h1>
-                <p class="hero-subtitle">We create amazing App Store apps using cutting-edge AI, guided by human insight and expertise. Every app is crafted with care, quality, and attention to detail.</p>
-                <div class="hero-badges">
-                    <span class="badge">✨ App Store Featured</span>
-                    <span class="badge">🎯 User-Focused</span>
-                    <span class="badge">🤖 AI-Enhanced</span>
+            <div class="hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow reveal"><span class="dot"></span>Aiveloc LLC · iOS Studio</span>
+                    <h1 class="reveal delay-1">
+                        AI-Powered Apps.<br />
+                        <span class="muted">Human Expertise.</span>
+                    </h1>
+                    <p class="hero-sub reveal delay-3">
+                        An independent app studio. We pair cutting-edge AI with human judgment to ship refined, focused iOS apps — fast.
+                    </p>
+                    <div class="hero-actions reveal delay-3">
+                        <a href="#apps" class="btn primary">
+                            See our apps
+                            <span class="arrow">→</span>
+                        </a>
+                        <a href="mailto:aivelocadmin@gmail.com" class="btn ghost">
+                            aivelocadmin@gmail.com
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Code window -->
+                <div class="code-window reveal delay-2" aria-hidden="true">
+                    <div class="code-chrome">
+                        <div class="dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <span class="title">AppDelegate.swift — Aiveloc</span>
+                    </div>
+                    <div class="code-body" id="code-body"></div>
                 </div>
             </div>
         </div>
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <span class="line"></span>
+        </div>
     </section>
 
-    <!-- Our Approach -->
-    <section id="approach" class="approach">
+    <!-- Approach -->
+    <section id="approach">
         <div class="container">
-            <h2 class="section-title">Our Unique Approach</h2>
-            <p class="section-subtitle">Combining the best of AI and human expertise</p>
-            
+            <div class="section-head reveal">
+                <span class="section-label">/ Our Approach</span>
+                <h2 class="section-title">A studio built around the new craft of app-making.</h2>
+                <p class="section-sub">AI accelerates the work. Humans set the direction, taste, and bar for quality.</p>
+            </div>
             <div class="approach-grid">
-                <div class="approach-card">
-                    <div class="approach-icon">🤖</div>
+                <article class="card reveal">
+                    <div class="card-num">01<span></span></div>
+                    <div class="card-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    </div>
                     <h3>AI-Powered Development</h3>
-                    <p>We leverage cutting-edge AI to accelerate development, generate code, and create innovative features. AI handles the heavy lifting.</p>
-                </div>
-                
-                <div class="approach-card">
-                    <div class="approach-icon">👤</div>
+                    <p>Modern coding agents handle the boilerplate, scaffolding, and iteration. The grunt work disappears so we can move at the speed of ideas.</p>
+                </article>
+                <article class="card reveal delay-1">
+                    <div class="card-num">02<span></span></div>
+                    <div class="card-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.42 3.58-8 8-8s8 3.58 8 8"/></svg>
+                    </div>
                     <h3>Human in the Loop</h3>
-                    <p>Every decision is guided by human expertise. We ensure quality, user experience, and attention to detail that only humans can provide.</p>
-                </div>
-                
-                <div class="approach-card">
-                    <div class="approach-icon">✨</div>
+                    <p>Every release goes through human review — design, UX, accessibility, copy. AI ships drafts; we ship products people are happy to keep on their home screen.</p>
+                </article>
+                <article class="card reveal delay-2">
+                    <div class="card-num">03<span></span></div>
+                    <div class="card-icon" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.6 6.4L21 10l-5 4.6L17.2 22 12 18.4 6.8 22 8 14.6 3 10l6.4-1.6L12 2z"/></svg>
+                    </div>
                     <h3>Best of Both Worlds</h3>
-                    <p>The speed and innovation of AI, combined with the wisdom and care of human developers. The result? Exceptional apps.</p>
+                    <p>AI velocity, human taste. The result: polished apps that ship in weeks, not quarters — without the rough edges that betray throw-it-together work.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured project: Communally -->
+    <section id="latest">
+        <div class="container">
+            <div class="latest-card reveal">
+                <div class="latest-media">
+                    <div class="latest-logo-frame">
+                        <img src="communally-logo.png" alt="Communally app icon" class="latest-logo" />
+                    </div>
+                </div>
+                <div class="latest-copy">
+                    <span class="latest-eyebrow">
+                        <span class="dot"></span>
+                        Now Building · Latest Project
+                    </span>
+                    <h2 class="latest-title">Communally.</h2>
+                    <p class="latest-tag">A neighborhood-first marketplace for short, paid jobs — hire local help, or earn doing what you're good at.</p>
+                    <p class="latest-desc">Built for trust: verified neighbors, fair-pay floors, scheduled jobs with built-in arrival and check-out, and PIN-protected handoffs. Launching soon on iOS.</p>
+                    <ul class="latest-meta">
+                        <li><span class="meta-k">Platform</span><span class="meta-v">iOS</span></li>
+                        <li><span class="meta-k">Status</span><span class="meta-v">In development · 2026</span></li>
+                        <li><span class="meta-k">Category</span><span class="meta-v">Marketplace · Community</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Apps Section -->
-    <section id="apps" class="apps">
+    <!-- Apps -->
+    <section id="apps">
         <div class="container">
-            <h2 class="section-title">Our Apps</h2>
-            <p class="section-subtitle">Creating meaningful experiences, one app at a time</p>
-            
+            <div class="section-head reveal">
+                <span class="section-label">/ Our Apps</span>
+                <h2 class="section-title">Apps we've shipped to the App Store.</h2>
+                <p class="section-sub">Each one is a small, focused product — designed and refined by hand, accelerated by AI.</p>
+            </div>
             <div class="apps-grid">
-                <!-- DivinePrayers -->
-                <div class="app-card">
-                    <div class="app-icon">🙏</div>
-                    <h3>DivinePrayers</h3>
-                    <p class="app-category">Spiritual & Education</p>
-                    <p class="app-description">Learn Hindu prayers, mantras, and devotional songs with interactive quizzes, daily verses, and bilingual audio. Transform your spiritual practice.</p>
-                    <div class="app-features">
-                        <span class="feature-tag">Interactive Quizzes</span>
-                        <span class="feature-tag">Daily Verses</span>
-                        <span class="feature-tag">Bilingual Audio</span>
+                <article class="card app-card reveal">
+                    <div class="app-meta">
+                        <div class="app-glyph" aria-hidden="true">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2C9 6 6 8 6 13a6 6 0 0012 0c0-5-3-7-6-11z"/></svg>
+                        </div>
+                        <span class="app-badge">iOS</span>
                     </div>
-                    <a href="https://apps.apple.com/app/divineprayers" class="btn btn-app-store" target="_blank" rel="noopener">
-                        <span>📱</span> Download on App Store
-                    </a>
-                </div>
+                    <h3 class="app-title">DivinePrayers</h3>
+                    <div class="app-cat">Spiritual · Education</div>
+                    <p class="app-desc">Learn Hindu prayers, mantras, and devotional songs with interactive quizzes, daily verses, and bilingual audio. Built to make a daily practice effortless.</p>
+                    <div class="app-foot">
+                        <a class="app-link" href="https://apps.apple.com/app/divineprayers" target="_blank" rel="noopener">
+                            App Store <span class="arrow">↗</span>
+                        </a>
+                        <span class="app-badge">v1</span>
+                    </div>
+                </article>
 
-                <!-- Hanuman Chalisa Kids -->
-                <div class="app-card">
-                    <div class="app-icon">👶</div>
-                    <h3>Hanuman Chalisa Kids</h3>
-                    <p class="app-category">Education & Kids</p>
-                    <p class="app-description">A kid-friendly way to learn Hanuman Chalisa. Interactive learning, beautiful illustrations, and engaging content designed for children.</p>
-                    <div class="app-features">
-                        <span class="feature-tag">Kid-Friendly</span>
-                        <span class="feature-tag">Interactive</span>
-                        <span class="feature-tag">Educational</span>
+                <article class="card app-card reveal delay-1">
+                    <div class="app-meta">
+                        <div class="app-glyph" aria-hidden="true">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-6 7-6s7 2 7 6"/></svg>
+                        </div>
+                        <span class="app-badge">iOS</span>
                     </div>
-                    <a href="https://apps.apple.com/app/hanuman-chalisa-kids" class="btn btn-app-store" target="_blank" rel="noopener">
-                        <span>📱</span> Download on App Store
-                    </a>
-                </div>
+                    <h3 class="app-title">Hanuman Chalisa Kids</h3>
+                    <div class="app-cat">Education · Kids</div>
+                    <p class="app-desc">A kid-friendly way to learn the Hanuman Chalisa. Interactive learning, beautiful illustrations, and engaging content designed for young readers.</p>
+                    <div class="app-foot">
+                        <a class="app-link" href="https://apps.apple.com/app/hanuman-chalisa-kids" target="_blank" rel="noopener">
+                            App Store <span class="arrow">↗</span>
+                        </a>
+                        <span class="app-badge">v1</span>
+                    </div>
+                </article>
 
-                <!-- Pleasanton Student Pro -->
-                <div class="app-card">
-                    <div class="app-icon">🎓</div>
-                    <h3>Pleasanton Student Pro</h3>
-                    <p class="app-category">Education & Productivity</p>
-                    <p class="app-description">A comprehensive app for Pleasanton students. Manage schedules, assignments, and stay organized with powerful productivity features.</p>
-                    <div class="app-features">
-                        <span class="feature-tag">Productivity</span>
-                        <span class="feature-tag">Student-Focused</span>
-                        <span class="feature-tag">Organized</span>
+                <article class="card app-card reveal delay-2">
+                    <div class="app-meta">
+                        <div class="app-glyph" aria-hidden="true">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v6c3 2 6 3 9 3s6-1 9-3V7"/></svg>
+                        </div>
+                        <span class="app-badge">iOS</span>
                     </div>
-                    <a href="https://apps.apple.com/app/pleasanton-student-pro" class="btn btn-app-store" target="_blank" rel="noopener">
-                        <span>📱</span> Download on App Store
-                    </a>
-                </div>
+                    <h3 class="app-title">Pleasanton Student Pro</h3>
+                    <div class="app-cat">Education · Productivity</div>
+                    <p class="app-desc">A comprehensive app for Pleasanton students. Manage schedules, assignments, and stay on top of it all with productivity features built for student life.</p>
+                    <div class="app-foot">
+                        <a class="app-link" href="https://apps.apple.com/app/pleasanton-student-pro" target="_blank" rel="noopener">
+                            App Store <span class="arrow">↗</span>
+                        </a>
+                        <span class="app-badge">v1</span>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- About -->
+    <section id="about">
         <div class="container">
-            <div class="about-content">
-                <h2 class="section-title">About Aiveloc</h2>
-                <p class="about-text">
-                    We're a team of professional developers who believe in the power of AI-assisted development, 
-                    guided by human expertise and care. Our apps combine cutting-edge technology with thoughtful 
-                    design and user-focused experiences.
-                </p>
-                <p class="about-text">
-                    Every app we create goes through rigorous quality assurance, user testing, and refinement. 
-                    We don't just build apps—we craft experiences that make a difference in people's lives.
-                </p>
-                
-                <div class="about-stats">
-                    <div class="stat">
-                        <div class="stat-number">3+</div>
+            <div class="about-grid">
+                <div class="reveal">
+                    <span class="section-label">/ About</span>
+                    <h2 class="section-title">A studio of one. Shipping deliberately.</h2>
+                    <p class="about-text">Aiveloc is an independent iOS app studio founded and run by <strong style="color: var(--fg);">Shaurya Grover</strong>. He started the company in 8th grade. The bet: small teams using AI can punch above their weight — without losing the human taste that makes a product feel cared-for.</p>
+                    <p class="about-text">Every app on the shelf is shipped by hand — every screen, every interaction, every word, reviewed by a real human.</p>
+                </div>
+                <div class="stats reveal delay-1" id="stats" role="list">
+                    <div class="stat" role="listitem">
+                        <div class="stat-num"><span class="counter" data-target="3" data-suffix="+">0</span></div>
                         <div class="stat-label">Apps Published</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number">100%</div>
+                    <div class="stat" role="listitem">
+                        <div class="stat-num"><span class="counter" data-target="100">0</span><span class="unit">%</span></div>
                         <div class="stat-label">Human-Curated</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-number">AI</div>
-                        <div class="stat-label">Enhanced Development</div>
+                    <div class="stat" role="listitem">
+                        <div class="stat-num"><span class="counter" data-target="24" data-suffix="h">0</span></div>
+                        <div class="stat-label">Avg Reply Time</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="about-values">
-                    <h3>Our Values</h3>
-                    <div class="values-grid">
-                        <div class="value-item">
-                            <strong>🎯 Quality First</strong>
-                            <p>Every app meets our high standards for design, functionality, and user experience.</p>
+            <!-- Founder bio -->
+            <div class="founder-block">
+                <div class="section-head reveal founder-head">
+                    <span class="section-label">/ Founder</span>
+                    <h2 class="section-title founder-title">More about Shaurya.</h2>
+                    <p class="section-sub">Apps are one of several things he ships. A quick tour of the rest.</p>
+                </div>
+                <div class="founder-grid">
+                    <article class="card reveal">
+                        <div class="card-num">Music · <span style="color: var(--fg-90); margin-left: auto;">100K+ subs</span></div>
+                        <h3>Producer · @Shaurgroovy</h3>
+                        <p>Self-taught producer with an Apple Music–charting catalog. Official producer for Sony, with music live on Apple Music and Spotify. 50+ compositions sold to other artists; mentors and produces locally.</p>
+                        <div class="card-cta">
+                            <a class="app-link" href="https://www.youtube.com/@Shaurgroovy" target="_blank" rel="noopener">
+                                YouTube <span class="arrow">↗</span>
+                            </a>
                         </div>
-                        <div class="value-item">
-                            <strong>👥 User-Centric</strong>
-                            <p>We build apps that solve real problems and delight users.</p>
+                    </article>
+                    <article class="card reveal delay-1">
+                        <div class="card-num">Robotics · <span style="color: var(--fg-90); margin-left: auto;">Team 3134E</span></div>
+                        <h3>VEX Robotics, Robolabs</h3>
+                        <p>Division Finalist at the 2026 CREATE Open US Tournament. Tri-Valley local champion through Robolabs.</p>
+                        <div class="card-cta">
+                            <a class="app-link" href="https://www.robotevents.com/robot-competitions/vex-robotics-competition/RE-V5RC-25-0404.html#results-" target="_blank" rel="noopener">
+                                CREATE Open <span class="arrow">↗</span>
+                            </a>
                         </div>
-                        <div class="value-item">
-                            <strong>🚀 Innovation</strong>
-                            <p>We embrace new technologies and methodologies to stay ahead.</p>
+                    </article>
+                    <article class="card reveal delay-2">
+                        <div class="card-num">Recognition</div>
+                        <h3>KQED Youth Media · Top 3</h3>
+                        <p>Selected for the top 3 publications out of 10,000+ applications to KQED Youth Media. Drawing published in <em>Celebrating Art</em>.</p>
+                        <div class="card-cta">
+                            <a class="app-link" href="https://youthmedia.kqed.org/" target="_blank" rel="noopener">
+                                KQED Youth Media <span class="arrow">↗</span>
+                            </a>
                         </div>
-                        <div class="value-item">
-                            <strong>🤝 Integrity</strong>
-                            <p>We're transparent, honest, and committed to excellence.</p>
+                    </article>
+                    <article class="card reveal delay-3">
+                        <div class="card-num">Also</div>
+                        <h3>Piano · Tennis · Mentorship</h3>
+                        <p>London School of Music Level 3 piano, prepping for Level 4. JV high-school tennis. Coaching another artist into publishing music and building a local community of student creators.</p>
+                        <div class="card-cta">
+                            <a class="app-link" href="https://pleasantonstudentpro.com" target="_blank" rel="noopener">
+                                Pleasanton Student Pro <span class="arrow">↗</span>
+                            </a>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta">
+    <!-- CTA -->
+    <section class="cta-section">
         <div class="container">
-            <h2>Have an App Idea?</h2>
-            <p>We'd love to hear about your project. Let's create something amazing together.</p>
-            <a href="mailto:admin@aiveloc.com" class="btn btn-primary">Get in Touch</a>
+            <span class="section-label reveal">/ Contact</span>
+            <h2 class="section-title reveal delay-1">Have an app you'd like to ship?</h2>
+            <p class="reveal delay-2">Tell us about your idea. We reply to every serious message.</p>
+            <div class="reveal delay-3 cta-actions">
+                <a href="mailto:aivelocadmin@gmail.com" class="btn primary">
+                    aivelocadmin@gmail.com
+                    <span class="arrow">→</span>
+                </a>
+                <a href="https://instagram.com/aiveloc" target="_blank" rel="noopener" class="btn ghost">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                    Follow @aiveloc
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Aiveloc</h3>
-                    <p>AI-powered apps with human expertise</p>
+            <div class="foot-grid">
+                <div class="foot-col foot-brand">
+                    <a href="#top" class="brand">
+                        <img class="brand-mark" src="logo.png" alt="" aria-hidden="true" />
+                        Aiveloc
+                    </a>
+                    <p>AI-powered apps. Human expertise. Built in California.</p>
                 </div>
-                <div class="footer-section">
+                <div class="foot-col">
                     <h4>Apps</h4>
                     <ul>
-                        <li><a href="https://apps.apple.com/app/divineprayers" target="_blank">DivinePrayers</a></li>
-                        <li><a href="https://apps.apple.com/app/hanuman-chalisa-kids" target="_blank">Hanuman Chalisa Kids</a></li>
-                        <li><a href="https://apps.apple.com/app/pleasanton-student-pro" target="_blank">Pleasanton Student Pro</a></li>
+                        <li><a href="https://apps.apple.com/app/divineprayers" target="_blank" rel="noopener">DivinePrayers</a></li>
+                        <li><a href="https://apps.apple.com/app/hanuman-chalisa-kids" target="_blank" rel="noopener">Hanuman Chalisa Kids</a></li>
+                        <li><a href="https://apps.apple.com/app/pleasanton-student-pro" target="_blank" rel="noopener">Pleasanton Student Pro</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h4>Company</h4>
+                <div class="foot-col">
+                    <h4>Studio</h4>
                     <ul>
+                        <li><a href="#approach">Approach</a></li>
                         <li><a href="#about">About</a></li>
-                        <li><a href="#approach">Our Approach</a></li>
-                        <li><a href="support.html">Support</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
+                <div class="foot-col">
                     <h4>Contact</h4>
-                    <p><a href="mailto:admin@aiveloc.com">admin@aiveloc.com</a></p>
+                    <ul>
+                        <li><a href="mailto:aivelocadmin@gmail.com">aivelocadmin@gmail.com</a></li>
+                        <li><a href="https://instagram.com/aiveloc" target="_blank" rel="noopener">Instagram · @aiveloc</a></li>
+                        <li><a href="https://www.youtube.com/@Shaurgroovy" target="_blank" rel="noopener">YouTube · @Shaurgroovy</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Aiveloc LLC. All rights reserved.</p>
+            <div class="foot-bottom">
+                <span>© 2025 Aiveloc LLC. All rights reserved.</span>
+                <span>aiveloc.com</span>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- GSAP (loaded per spec; reserved for future timeline use) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+
+    <script>
+        /* ============ NAV: scrolled state, mobile menu, active link ============ */
+        (function () {
+            const nav = document.getElementById('nav');
+            const toggle = document.getElementById('menuToggle');
+            const panel = document.getElementById('mobilePanel');
+
+            const onScroll = () => {
+                nav.classList.toggle('scrolled', window.scrollY > 8);
+            };
+            onScroll();
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            toggle.addEventListener('click', () => {
+                const isOpen = panel.classList.toggle('open');
+                toggle.classList.toggle('open', isOpen);
+                toggle.setAttribute('aria-expanded', String(isOpen));
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            });
+            // Close mobile panel on link click
+            panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                panel.classList.remove('open');
+                toggle.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }));
+
+            // Active nav link via IntersectionObserver
+            const sections = ['approach', 'apps', 'about'].map(id => document.getElementById(id)).filter(Boolean);
+            const navLinks = Array.from(document.querySelectorAll('[data-nav]'));
+            const linkFor = id => navLinks.find(a => a.getAttribute('href') === '#' + id);
+
+            const sectionObs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        const link = linkFor(entry.target.id);
+                        if (link) link.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+            sections.forEach(s => sectionObs.observe(s));
+        })();
+
+        /* ============ REVEAL ON SCROLL ============ */
+        (function () {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+        })();
+
+        /* ============ CODE WINDOW — live typing loop ============ */
+        (function () {
+            const body = document.getElementById('code-body');
+            if (!body) return;
+
+            // Token-by-token so we can apply syntax classes mid-type.
+            // Each token: { t: 'kw'|'str'|'com'|'fn'|'', s: 'text' }
+            const lines = [
+                [{ t: 'com', s: '// Aiveloc — AI + human in the loop' }],
+                [{ t: 'kw', s: 'import' }, { t: '', s: ' SwiftUI' }],
+                [{ t: 'kw', s: 'import' }, { t: '', s: ' Claude' }],
+                [],
+                [{ t: 'kw', s: 'struct' }, { t: '', s: ' ' }, { t: 'fn', s: 'AiveloApp' }, { t: '', s: ': ' }, { t: 'kw', s: 'App' }, { t: '', s: ' {' }],
+                [{ t: '', s: '    ' }, { t: 'kw', s: 'let' }, { t: '', s: ' agent = ' }, { t: 'fn', s: 'Claude' }, { t: '', s: '(' }, { t: 'str', s: '"sonnet-4.6"' }, { t: '', s: ')' }],
+                [{ t: '', s: '    ' }, { t: 'kw', s: 'let' }, { t: '', s: ' human = ' }, { t: 'fn', s: 'Reviewer' }, { t: '', s: '(taste: ' }, { t: 'str', s: '.high' }, { t: '', s: ')' }],
+                [],
+                [{ t: '', s: '    ' }, { t: 'kw', s: 'var' }, { t: '', s: ' body: ' }, { t: 'kw', s: 'some' }, { t: '', s: ' ' }, { t: 'fn', s: 'Scene' }, { t: '', s: ' {' }],
+                [{ t: '', s: '        ' }, { t: 'kw', s: 'WindowGroup' }, { t: '', s: ' {' }],
+                [{ t: '', s: '            ' }, { t: 'fn', s: 'ContentView' }, { t: '', s: '()' }],
+                [{ t: '', s: '                ' }, { t: '', s: '.shipped(by: agent, reviewedBy: human)' }],
+                [{ t: '', s: '        }' }],
+                [{ t: '', s: '    }' }],
+                [{ t: '', s: '}' }]
+            ];
+
+            function buildLineEl(num) {
+                const line = document.createElement('div');
+                line.className = 'code-line';
+                const ln = document.createElement('span');
+                ln.className = 'ln';
+                ln.textContent = String(num).padStart(2, '0');
+                const code = document.createElement('span');
+                code.className = 'code';
+                line.appendChild(ln);
+                line.appendChild(code);
+                return { line, code };
+            }
+
+            function caretEl() {
+                const c = document.createElement('span');
+                c.className = 'code-caret';
+                return c;
+            }
+
+            async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+            async function typeLines() {
+                while (true) {
+                    body.innerHTML = '';
+                    let activeCode = null;
+
+                    for (let i = 0; i < lines.length; i++) {
+                        const { line, code } = buildLineEl(i + 1);
+                        body.appendChild(line);
+                        activeCode = code;
+
+                        // Move caret to current line
+                        document.querySelectorAll('.code-caret').forEach(n => n.remove());
+                        code.appendChild(caretEl());
+
+                        const tokens = lines[i];
+                        for (let t = 0; t < tokens.length; t++) {
+                            const token = tokens[t];
+                            const span = document.createElement('span');
+                            if (token.t) span.className = token.t;
+                            code.insertBefore(span, code.lastElementChild); // before caret
+
+                            const text = token.s;
+                            for (let c = 0; c < text.length; c++) {
+                                span.textContent += text[c];
+                                await sleep(8 + Math.random() * 18);
+                            }
+                        }
+                        await sleep(120);
+                    }
+                    // Hold the finished snippet, then loop
+                    await sleep(3200);
+                }
+            }
+
+            // Start typing once the hero is in view (saves CPU on long scrolls).
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        obs.disconnect();
+                        typeLines();
+                    }
+                });
+            }, { threshold: 0.2 });
+            obs.observe(body);
+        })();
+
+        /* ============ STAT COUNTERS ============ */
+        (function () {
+            const counters = document.querySelectorAll('.counter');
+            if (!counters.length) return;
+
+            function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+            function animate(el) {
+                const target = parseFloat(el.dataset.target);
+                const suffix = el.dataset.suffix || '';
+                const duration = 1500;
+                const start = performance.now();
+
+                function frame(now) {
+                    const t = Math.min(1, (now - start) / duration);
+                    const v = Math.round(easeOutCubic(t) * target);
+                    el.textContent = v + suffix;
+                    if (t < 1) requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            }
+
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animate(entry.target);
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.6 });
+            counters.forEach(c => obs.observe(c));
+        })();
+
+        /* ============ FOOTER YEAR (auto) — keeps 2025 unless year ticks ============ */
+        // Intentionally hard-coded "© 2025" per brand spec; no JS update.
+    </script>
 </body>
 </html>
-<!-- Updated: Mon Nov 17 21:36:54 PST 2025 -->
